@@ -8,6 +8,12 @@ function closePopUp(popUpElement) {
     popUpElement.removeEventListener('keydown', closeByEsc)
 }
 
+function closeButtonPopUp(evt) {
+    closePopUp(evt.target.closest('.popup'));
+}
+
+
+
 function closeByEsc(evt){
     if(evt.key === 'Escape') {
         closePopUp(document.querySelector('.popup_is-opened'));
@@ -15,4 +21,4 @@ function closeByEsc(evt){
 } 
 
 
-export {openPopUp, closePopUp};
+export {openPopUp, closePopUp, closeButtonPopUp};

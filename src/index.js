@@ -1,11 +1,11 @@
 import './pages/index.css';
 import { initialCards } from './scripts/cards';
-import { openPopUp, closePopUp } from './scripts/modal';
+import { openPopUp, closePopUp, closeButtonPopUp } from './scripts/modal';
 
 const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.places__list');
 const popupEdit = document.querySelector('.popup_type_edit');
-const buttonPopupClose = document.querySelector('.popup__close');
+const buttonsPopUpClose = document.querySelectorAll('.popup__close');
 const buttonProfileEdit = document.querySelector('.profile__edit-button');
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
@@ -43,8 +43,8 @@ buttonProfileEdit.addEventListener('click', () => {
     jobInput.value = profileDescription.textContent;
     openPopUp(popupEdit);
     
-} )
+});
 
-buttonPopupClose.addEventListener('click', () => {
-    closePopUp(popupEdit)
-})
+buttonsPopUpClose.forEach((button) => {
+    button.addEventListener('click', closeButtonPopUp);
+});
