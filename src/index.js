@@ -44,9 +44,10 @@ function createNewCard(evt) {
     
     cardsContainer.prepend(createCardElement(cardData, deleteCard));
     popUpNewCardForm.reset();
+    closePopUp(popUpNewCard);
 }
 
-popUpNewCardForm.addEventListener('submit', createNewCard);
+popUpNewCardForm.addEventListener('submit', createNewCard, closePopUp);
 
 function deleteCard(cardElement) {
     cardElement.remove()
