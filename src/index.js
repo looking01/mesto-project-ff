@@ -6,9 +6,11 @@ const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.places__list');
 const popupEdit = document.querySelector('.popup_type_edit');
 const buttonProfileEdit = document.querySelector('.profile__edit-button');
-const profileTitle = document.querySelector('.profile_title');
-const proFileDescription = document.querySelector('.profile__description');
-const 
+const profileTitle = document.querySelector('.profile__title');
+const profileDescription = document.querySelector('.profile__description');
+const profileEditForm = popupEdit.querySelector('.popup__form');
+const nameInput = profileEditForm.querySelector('.popup__input_type_name');
+const jobInput = profileEditForm.querySelector('.popup__input_type_description');
 
 
 function createCardElement(cardData, deleteCallback) {
@@ -35,6 +37,7 @@ initialCards.forEach(function(cardData) {
 
 
 buttonProfileEdit.addEventListener('click', () => {
-
+    nameInput.value = profileTitle.textContent;
+    jobInput.value = profileDescription.textContent;
     openPopUp(popupEdit);
 } )
