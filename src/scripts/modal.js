@@ -12,7 +12,11 @@ function closeButtonPopUp(evt) {
     closePopUp(evt.target.closest('.popup'));
 }
 
-
+function closeOverlayPopUp(evt) {
+    if (evt.target === evt.currentTarget) {
+        closePopUp(evt.target);
+    }
+}
 
 function closeByEsc(evt){
     if(evt.key === 'Escape') {
@@ -21,4 +25,4 @@ function closeByEsc(evt){
 } 
 
 
-export {openPopUp, closePopUp, closeButtonPopUp};
+export {openPopUp, closePopUp, closeButtonPopUp, closeOverlayPopUp};

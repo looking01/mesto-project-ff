@@ -1,9 +1,10 @@
 import './pages/index.css';
 import { initialCards } from './scripts/cards';
-import { openPopUp, closePopUp, closeButtonPopUp } from './scripts/modal';
+import { openPopUp, closePopUp, closeButtonPopUp, closeOverlayPopUp } from './scripts/modal';
 
 const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.places__list');
+const overlaysPopUp = document.querySelectorAll('.popup')
 const popupEdit = document.querySelector('.popup_type_edit');
 const buttonsPopUpClose = document.querySelectorAll('.popup__close');
 const buttonProfileEdit = document.querySelector('.profile__edit-button');
@@ -47,4 +48,8 @@ buttonProfileEdit.addEventListener('click', () => {
 
 buttonsPopUpClose.forEach((button) => {
     button.addEventListener('click', closeButtonPopUp);
+});
+
+overlaysPopUp.forEach((overlay) => {
+    overlay.addEventListener('click', closeOverlayPopUp)
 });
