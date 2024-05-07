@@ -1,5 +1,6 @@
 function openPopUp(popUpElement) {
   popUpElement.classList.add("popup_is-opened");
+  popUpElement.classList.add("popup_is-animated")
   popUpElement.addEventListener("keydown", closeByEsc);
 }
 

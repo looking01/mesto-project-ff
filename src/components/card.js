@@ -2,7 +2,7 @@ const cardTemplate = document.querySelector("#card-template").content;
 
 // Создание карточек
 
-function createCardElement(cardData, deleteCallback, likeCallback) {
+function createCardElement(cardData, deleteCallback, likeCallback, imgPopUPCallback) {
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
   const cardTitle = cardElement.querySelector(".card__title");
   const cardImage = cardElement.querySelector(".card__image");
@@ -20,6 +20,8 @@ function createCardElement(cardData, deleteCallback, likeCallback) {
   cardLikeButton.addEventListener("click", () => {
     likeCallback(cardLikeButton);
   });
+
+  cardImage.addEventListener("click", imgPopUPCallback)
   return cardElement;
 }
 
@@ -38,5 +40,7 @@ function likeCard(cardLikeButton) {
     cardLikeButton.classList.add("card__like-button_is-active");
   }
 }
+
+
 
 export { createCardElement, likeCard, deleteCard };

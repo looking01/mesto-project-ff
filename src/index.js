@@ -18,20 +18,19 @@ const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const profileEditForm = popUpEdit.querySelector(".popup__form");
 const nameInput = profileEditForm.querySelector(".popup__input_type_name");
-const jobInput = profileEditForm.querySelector(
-  ".popup__input_type_description"
-);
+const jobInput = profileEditForm.querySelector(".popup__input_type_description");
 const buttonAddCard = document.querySelector(".profile__add-button");
 const popUpNewCardForm = popUpNewCard.querySelector(".popup__form");
-const cardInputTitle = popUpNewCard.querySelector(
-  ".popup__input_type_card-name"
-);
+const cardInputTitle = popUpNewCard.querySelector(".popup__input_type_card-name");
 const cardLink = popUpNewCard.querySelector(".popup__input_type_url");
+const popUpTypeImg = document.querySelector(".popup_type_image");
+const popUpImg = popUpTypeImg.querySelector(".popup__image");
+const popUpCaption = popUpTypeImg.querySelector('.popup__caption');
 
 // Рендер карточек
 
 initialCards.forEach(function (cardData) {
-  cardsContainer.append(createCardElement(cardData, deleteCard, likeCard));
+  cardsContainer.append(createCardElement(cardData, deleteCard, likeCard, openPopUpImg));
 });
 
 // Сохранение модального окна создания карточки
@@ -43,7 +42,7 @@ function createNewCard(evt) {
   cardData.name = cardInputTitle.value;
   cardData.link = cardLink.value;
 
-  cardsContainer.prepend(createCardElement(cardData, deleteCard, likeCard));
+  cardsContainer.prepend(createCardElement(cardData, deleteCard, likeCard, openPopUpImg));
   popUpNewCardForm.reset();
   closePopUp(popUpNewCard);
 }
@@ -80,3 +79,14 @@ buttonProfileEdit.addEventListener("click", () => {
 });
 
 profileEditForm.addEventListener("submit", handleFormSubmit);
+
+
+function openPopUpImg (evt) {
+  const cardElement = evt.target.closest('.card');
+  openPopUp(popUpTypeImg);
+
+  const cardImg = cardElement.querySelector('.card__image');
+  const cardTitle = cardElement.querySelector('.card__title');
+  popUpImg.src = cardImg.src;
+  popUpCaption.textContent = cardTitle.textContent;
+}
