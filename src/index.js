@@ -1,8 +1,9 @@
 import './pages/index.css';
+import { createCardElement, likeCard, deleteCard } from './components/card';
+import { openPopUp, closePopUp, closeButtonPopUp, closeOverlayPopUp } from './components/modal';
 import { initialCards } from './scripts/cards';
-import { openPopUp, closePopUp, closeButtonPopUp, closeOverlayPopUp } from './scripts/modal';
 
-const cardTemplate = document.querySelector('#card-template').content;
+
 const cardsContainer = document.querySelector('.places__list');
 const overlaysPopUp = document.querySelectorAll('.popup')
 const popUpEdit = document.querySelector('.popup_type_edit');
@@ -20,20 +21,11 @@ const cardInputTitle = popUpNewCard.querySelector('.popup__input_type_card-name'
 const cardLink = popUpNewCard.querySelector('.popup__input_type_url');
 
 
-function createCardElement(cardData, deleteCallback) {
-    const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-    const cardTitle = cardElement.querySelector('.card__title');
-    const cardImage = cardElement.querySelector('.card__image');
-    cardImage.src = cardData.link;
-    cardImage.alt = cardData.name;
-    cardTitle.textContent = cardData.name;
-    const deleteButton = cardElement.querySelector('.card__delete-button');
-    deleteButton.addEventListener('click', () => {
-        deleteCallback(cardElement);
-    });
-    return cardElement;
+popUpNewCardForm.addEventListener('submit', createNewCard, closePopUp);
 
-}
+initialCards.forEach(function(cardData) {
+    cardsContainer.append(createCardElement(cardData, deleteCard, likeCard));
+})
 
 function createNewCard(evt) {
     evt.preventDefault();
@@ -42,20 +34,10 @@ function createNewCard(evt) {
     cardData.name = cardInputTitle.value;
     cardData.link = cardLink.value;
     
-    cardsContainer.prepend(createCardElement(cardData, deleteCard));
+    cardsContainer.prepend(createCardElement(cardData, deleteCard, likeCard));
     popUpNewCardForm.reset();
     closePopUp(popUpNewCard);
 }
-
-popUpNewCardForm.addEventListener('submit', createNewCard, closePopUp);
-
-function deleteCard(cardElement) {
-    cardElement.remove()
-}
-
-initialCards.forEach(function(cardData) {
-    cardsContainer.append(createCardElement(cardData, deleteCard));
-})
 
 buttonProfileEdit.addEventListener('click', () => {
     nameInput.value = profileTitle.textContent;
