@@ -1,12 +1,12 @@
 function openPopUp(popUpElement) {
   popUpElement.classList.add("popup_is-opened");
   popUpElement.classList.add("popup_is-animated")
-  popUpElement.addEventListener("keydown", closeByEsc);
+  document.addEventListener("keydown", closeByEsc);
 }
 
 function closePopUp(popUpElement) {
   popUpElement.classList.remove("popup_is-opened");
-  popUpElement.removeEventListener("keydown", closeByEsc);
+  document.removeEventListener("keydown", closeByEsc);
 }
 
 function closeButtonPopUp(evt) {

@@ -6,7 +6,7 @@ import {
   closeButtonPopUp,
   closeOverlayPopUp,
 } from "./components/modal";
-import { initialCards } from "./scripts/cards";
+import { initialCards } from "./components/cards";
 
 const cardsContainer = document.querySelector(".places__list");
 const overlaysPopUp = document.querySelectorAll(".popup");
@@ -63,6 +63,8 @@ overlaysPopUp.forEach((overlay) => {
   overlay.addEventListener("click", closeOverlayPopUp);
 });
 
+
+
 // Редактирование профиля
 
 function handleProfileFormSubmit(evt) {
@@ -82,12 +84,12 @@ profileEditForm.addEventListener("submit", handleProfileFormSubmit);
 
 
 function openPopUpZoomCard (evt) {
-  const cardElement = evt.target.closest('.card');
+  const picture = evt.target;
+
   openPopUp(popUpZoomCard);
 
-  const cardImg = cardElement.querySelector('.card__image');
-  const cardTitle = cardElement.querySelector('.card__title');
-  zoomCardImg.src = cardImg.src;
-  zoomCardCaption.textContent = cardTitle.textContent;
-  zoomCardImg.alt = cardTitle.textContent;
+  zoomCardImg.src = picture.src;
+  zoomCardCaption.textContent = picture.alt;
+  zoomCardImg.alt = picture.alt;
+  
 }
