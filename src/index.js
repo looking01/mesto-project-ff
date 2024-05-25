@@ -36,7 +36,7 @@ const validationData = {
   errorClass: 'popup__error_visible'
 }
 
-enableValidation(validationData)
+enableValidation(validationData);
 
 // Рендер карточек
 
