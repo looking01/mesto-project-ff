@@ -88,8 +88,8 @@ function handleProfileFormSubmit(evt) {
 buttonProfileEdit.addEventListener("click", () => {
   inputFormProfileName.value = profileTitle.textContent;
   inputFormProfileDescription.value = profileDescription.textContent;
-  clearValidation(profileEditForm, validationData)
   openPopUp(popUpEditProfile);
+  clearValidation(profileEditForm, validationData)
 });
 
 profileEditForm.addEventListener("submit", handleProfileFormSubmit);
