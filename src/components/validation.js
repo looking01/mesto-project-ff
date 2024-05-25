@@ -16,7 +16,7 @@ const checkInputValidity = (formElement, inputElement, validationConfig) => {
   if (inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(inputElement.dataset.errorMessage)
   } else {
-    inputElement.setCustomValidity('');
+    inputElement.setCustomValidity("");
   }
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, validationConfig)
@@ -28,11 +28,11 @@ const checkInputValidity = (formElement, inputElement, validationConfig) => {
 const setEventListener = (formElement, validationConfig) => {
   const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
   const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
-  toggleButtonState(buttonElement, inputList)
+  toggleButtonState(inputList, buttonElement, validationConfig)
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
       checkInputValidity(formElement, inputElement, validationConfig);
-      toggleButtonState(buttonElement, inputList);
+      toggleButtonState(inputList, buttonElement, validationConfig);
     })
   })
 };
@@ -60,3 +60,5 @@ const toggleButtonState = (inputList, buttonElement, validationConfig) => {
     buttonElement.classList.remove(validationConfig.inactiveButtonClass);
   };
 };
+
+export {enableValidation}

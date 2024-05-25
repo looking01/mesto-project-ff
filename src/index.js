@@ -7,6 +7,7 @@ import {
   closeOverlayPopUp,
 } from "./components/modal";
 import { initialCards } from "./components/cards";
+import { enableValidation } from "./components/validation";
 
 const cardsContainer = document.querySelector(".places__list");
 const overlaysPopUp = document.querySelectorAll(".popup");
@@ -34,6 +35,8 @@ const validationData = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 }
+
+enableValidation(validationData)
 
 // Рендер карточек
 
