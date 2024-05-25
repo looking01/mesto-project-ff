@@ -27,9 +27,12 @@ const checkInputValidity = (formElement, inputElement, validationConfig) => {
 
 const setEventListener = (formElement, validationConfig) => {
   const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+  const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+  toggleButtonState(buttonElement, inputList)
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
-      checkInputValidity(formElement, inputElement, validationConfig)
+      checkInputValidity(formElement, inputElement, validationConfig);
+      toggleButtonState(buttonElement, inputList);
     })
   })
 };
@@ -50,3 +53,10 @@ const hasInvalidInput = (inputList) => {
   });
 };
 
+const toggleButtonState = (inputList, buttonElement, validationConfig) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+  } else {
+    buttonElement.classList.remove(validationConfig.inactiveButtonClass);
+  };
+};
