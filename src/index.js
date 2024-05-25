@@ -26,6 +26,14 @@ const inputFormNewCardLink = popUpNewCard.querySelector(".popup__input_type_url"
 const popUpZoomCard = document.querySelector(".popup_type_image");
 const zoomCardImg = popUpZoomCard.querySelector(".popup__image");
 const zoomCardCaption = popUpZoomCard.querySelector('.popup__caption');
+const validationData = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
 
 // Рендер карточек
 
@@ -91,5 +99,5 @@ function openPopUpZoomCard (evt) {
   zoomCardImg.src = picture.src;
   zoomCardCaption.textContent = picture.alt;
   zoomCardImg.alt = picture.alt;
-  
+
 }
