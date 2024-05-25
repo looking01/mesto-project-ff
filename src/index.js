@@ -7,7 +7,7 @@ import {
   closeOverlayPopUp,
 } from "./components/modal";
 import { initialCards } from "./components/cards";
-import { enableValidation } from "./components/validation";
+import { enableValidation, clearValidation } from "./components/validation";
 
 const cardsContainer = document.querySelector(".places__list");
 const overlaysPopUp = document.querySelectorAll(".popup");
@@ -88,6 +88,7 @@ function handleProfileFormSubmit(evt) {
 buttonProfileEdit.addEventListener("click", () => {
   inputFormProfileName.value = profileTitle.textContent;
   inputFormProfileDescription.value = profileDescription.textContent;
+  clearValidation(profileEditForm, validationData)
   openPopUp(popUpEditProfile);
 });
 
