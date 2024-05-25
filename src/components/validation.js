@@ -43,3 +43,10 @@ const enableValidation = (validationConfig) => {
     setEventListener(formElement, validationConfig);
   });
 };
+
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid
+  });
+};
+
