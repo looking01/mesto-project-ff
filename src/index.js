@@ -8,7 +8,7 @@ import {
 } from "./components/modal";
 
 import { enableValidation, clearValidation } from "./components/validation";
-import { getCards, getUserData } from "./components/api";
+import { getUserProfile, getCards, changeLike, shiftCard, editUserProfile } from "./components/api";
 
 const cardTemplate = document.querySelector("#card-template").content;
 const cardsContainer = document.querySelector(".places__list");
@@ -57,7 +57,7 @@ enableValidation(validationData);
 
 // Рендер карточек
 
-Promise.all([getUserData(), getCards()])
+Promise.all([getUserProfile(), getCards()])
   .then(([profile, cards]) => {
     profileTitle.textContent = profile.name;
     profileDescription.textContent = profile.about;
@@ -105,11 +105,11 @@ overlaysPopUp.forEach((overlay) => {
 
 // Редактирование профиля
 
-function handleProfileFormSubmit(evt) {
+function handleProfileFormSubmit(title, description, inputTitle, inputDescription, poUpElement) {
   evt.preventDefault();
-  profileTitle.textContent = inputFormProfileName.value;
-  profileDescription.textContent = inputFormProfileDescription.value;
-  closePopUp(popUpEditProfile);
+  title.textContent = inputTitle;
+  description.textContent = inputDescription;
+  closePopUp(poUpElement);
 }
 
 buttonProfileEdit.addEventListener("click", () => {
@@ -119,7 +119,11 @@ buttonProfileEdit.addEventListener("click", () => {
   openPopUp(popUpEditProfile);
 });
 
-profileEditForm.addEventListener("submit", handleProfileFormSubmit);
+profileEditForm.addEventListener("submit", () => {
+  editUserProfile({name: inputFormProfileName.value, about: inputFormProfileDescription.value}).then(profile => {
+    handleProfileFormSubmit(profileTitle, profileDescription, profile.name, profile.about, popUpEditProfile);
+  })
+});
 
 
 function openPopUpZoomCard (evt) {

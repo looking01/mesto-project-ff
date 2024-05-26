@@ -14,12 +14,24 @@ const pathData = {
 }
 
 
-const getUserData = () => {
+const getUserProfile = () => {
   return getData(pathData.profile)
 }
 
 const getCards = () => {
   return getData(pathData.cards)
+}
+
+const editUserProfile = ({name, about}) => {
+  return postData(pathData.profile, {name, about}, "PATCH")
+}
+
+const pushNewCard = ({name, link}) => {
+  return postData(pathData.cards, {name, link})
+}
+
+const shiftCard = (idCard) => {
+  return getData(pathData.cards + `/${idCard}`, 'DELETE')
 }
 
 const changeLike = (idCard, methodLike) => {
@@ -48,4 +60,4 @@ const checkResponse = (res) => {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export{getUserData, getCards, changeLike}
+export{getUserProfile, getCards, changeLike, shiftCard, editUserProfile}
