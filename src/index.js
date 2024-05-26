@@ -1,12 +1,12 @@
 import "./pages/index.css";
-import { createCardElement, likeCard, deleteCard } from "./components/card";
+import { createCardElement, likeRemoveCard, deleteCard } from "./components/card";
 import {
   openPopUp,
   closePopUp,
   closeButtonPopUp,
   closeOverlayPopUp,
 } from "./components/modal";
-import { initialCards } from "./components/cards";
+
 import { enableValidation, clearValidation } from "./components/validation";
 import { getCards, getUserData } from "./components/api";
 
@@ -62,7 +62,7 @@ Promise.all([getUserData(), getCards()])
     profileTitle.textContent = profile.name;
     profileDescription.textContent = profile.about;
     cards.forEach((card) => {
-      addCard(cardsContainer, )
+      addCard(cardsContainer, createCardElement(cardTemplate, card, placesCardData, likeRemoveCard, openPopUpZoomCard, profile._id, popUpDeleteCard))
     })
   })
 
@@ -79,7 +79,7 @@ function createNewCard(evt) {
   cardData.name = inputFormNewCardTitle.value;
   cardData.link = inputFormNewCardLink.value;
 
-  cardsContainer.prepend(createCardElement(cardData, deleteCard, likeCard, openPopUpZoomCard));
+  cardsContainer.prepend(createCardElement(cardData, deleteCard, likeRemoveCard, openPopUpZoomCard));
   popUpNewCardForm.reset();
   closePopUp(popUpNewCard);
 }

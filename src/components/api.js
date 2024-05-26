@@ -22,7 +22,9 @@ const getCards = () => {
   return getData(pathData.cards)
 }
 
-
+const changeLike = (idCard, methodLike) => {
+  return getData(pathData.likes + `/${idCard}`, `${methodLike?'PUT':'DELETE'}`)
+}
 
 function getData(pathResource, method = "GET") {
   return fetch(config.baseUrl + pathResource, {
@@ -46,4 +48,4 @@ const checkResponse = (res) => {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export{getUserData, getCards}
+export{getUserData, getCards, changeLike}

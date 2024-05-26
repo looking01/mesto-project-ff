@@ -3,8 +3,9 @@
 // Создание карточек
 
 import { openPopUp } from "./modal";
+import { changeLike } from "./api";
 
-function createCardElement(templateEle, serverData,  cardData, likeCallback, imgPopUpCallback, profileId, popUpDeleteCard) {
+function createCardElement(templateEle, serverData,  cardData, likeRemoveCallback, imgPopUpCallback, profileId, popUpDeleteCard) {
   const cardElement = getCardTemplate(templateEle, cardData.card);
   const cardTitle = cardElement.querySelector(cardData.title);
   const cardImage = cardElement.querySelector(cardData.image);
@@ -29,15 +30,10 @@ function createCardElement(templateEle, serverData,  cardData, likeCallback, img
     deleteButton.remove();
   }
 
-
-
-
   cardLikeButton.addEventListener("click", (evt) => {
-    likeCallback()
+    likeRemoveCallback(evt, cardData.buttonLikeActive, serverData, profileId)
   });
 
-  cardImage.addEventListener("click", imgPopUpCallback)
-  return cardElement;
 }
 
 // Функция удаления карточки
@@ -48,11 +44,17 @@ function deleteCard(cardElement) {
 
 // Функция лайка карточки
 
-function likeCard(cardLikeButton) {
-  if (cardLikeButton.classList.contains("card__like-button_is-active")) {
-    cardLikeButton.classList.remove("card__like-button_is-active");
+function likeRemoveCard(evt, buttonActiveLikeClass, serverData, profileId) {
+  if (checkLike(serverData.likes, profileId)) {
+    changeLike(serverData._id, false).then(card => {
+      evt.target.classList.remove(buttonActiveLikeClass);
+      serverData.likes = card.likes;
+    })
   } else {
-    cardLikeButton.classList.add("card__like-button_is-active");
+    changeLike(serverData._id, true).then(card => {
+      evt.target.classList.add(buttonActiveLikeClass);
+      serverData.likes = card.likes
+    })
   }
 }
 
@@ -67,4 +69,4 @@ function checkLike(cardLikesArr, profileId) {
 }
 
 
-export { createCardElement, likeCard, deleteCard };
+export { createCardElement, likeRemoveCard, deleteCard };
