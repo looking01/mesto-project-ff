@@ -15,7 +15,7 @@ const cardsContainer = document.querySelector(".places__list");
 const overlaysPopUp = document.querySelectorAll(".popup");
 const popUpEditProfile = document.querySelector(".popup_type_edit");
 const popUpNewCard = document.querySelector(".popup_type_new-card");
-const popUpDeleteCard = document.querySelector('.popup__delete_card')
+const popUpDeleteCard = document.querySelector('.popup_delete_card')
 const buttonsPopUpClose = document.querySelectorAll(".popup__close");
 const buttonProfileEdit = document.querySelector(".profile__edit-button");
 const profileTitle = document.querySelector(".profile__title");
@@ -30,6 +30,8 @@ const inputFormNewCardLink = popUpNewCard.querySelector(".popup__input_type_url"
 const popUpZoomCard = document.querySelector(".popup_type_image");
 const zoomCardImg = popUpZoomCard.querySelector(".popup__image");
 const zoomCardCaption = popUpZoomCard.querySelector('.popup__caption');
+
+
 const validationData = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -39,7 +41,7 @@ const validationData = {
   errorClass: 'popup__error_visible'
 }
 
-const cardData = {
+const placesCardData = {
   card: '.places__item',
   image: '.card__image',
   title: '.card__title',
