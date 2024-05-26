@@ -8,11 +8,14 @@ import {
 } from "./components/modal";
 import { initialCards } from "./components/cards";
 import { enableValidation, clearValidation } from "./components/validation";
+import { getCards, getUserData } from "./components/api";
 
+const cardTemplate = document.querySelector("#card-template").content;
 const cardsContainer = document.querySelector(".places__list");
 const overlaysPopUp = document.querySelectorAll(".popup");
 const popUpEditProfile = document.querySelector(".popup_type_edit");
 const popUpNewCard = document.querySelector(".popup_type_new-card");
+const popUpDeleteCard = document.querySelector('.popup__delete_card')
 const buttonsPopUpClose = document.querySelectorAll(".popup__close");
 const buttonProfileEdit = document.querySelector(".profile__edit-button");
 const profileTitle = document.querySelector(".profile__title");
@@ -36,13 +39,34 @@ const validationData = {
   errorClass: 'popup__error_visible'
 }
 
+const cardData = {
+  card: '.places__item',
+  image: '.card__image',
+  title: '.card__title',
+  buttonLike: '.card__like-button',
+  buttonLikeActive: '.card__like-button_is-active',
+  likeCounter: '.card__like-counter',
+  buttonDelete: '.card__delete-button',
+  idDeleteCard: '',
+  cardForDelete: ''
+}
+
 enableValidation(validationData);
 
 // Рендер карточек
 
-initialCards.forEach(function (cardData) {
-  cardsContainer.append(createCardElement(cardData, deleteCard, likeCard, openPopUpZoomCard));
-});
+Promise.all([getUserData(), getCards()])
+  .then(([profile, cards]) => {
+    profileTitle.textContent = profile.name;
+    profileDescription.textContent = profile.about;
+    cards.forEach((card) => {
+      addCard(cardsContainer, )
+    })
+  })
+
+function addCard (cardsContainer, card) {
+  cardsContainer.append(card)
+}
 
 // Сохранение модального окна создания карточки
 

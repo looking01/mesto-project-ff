@@ -15,8 +15,14 @@ const pathData = {
 
 
 const getUserData = () => {
-  
+  return getData(pathData.profile)
 }
+
+const getCards = () => {
+  return getData(pathData.cards)
+}
+
+
 
 function getData(pathResource, method = "GET") {
   return fetch(config.baseUrl + pathResource, {
@@ -39,3 +45,5 @@ const checkResponse = (res) => {
   }
   return Promise.reject(`Ошибка: ${res.status}`);
 }
+
+export{getUserData, getCards}
