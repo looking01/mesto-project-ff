@@ -63,6 +63,7 @@ function createNewCard(evt) {
 popUpNewCardForm.addEventListener("submit", createNewCard);
 
 buttonAddCard.addEventListener("click", () => {
+  clearValidation(popUpNewCardForm, validationData)
   openPopUp(popUpNewCard);
 });
 
