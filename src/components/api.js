@@ -6,15 +6,16 @@ const config = {
   }
 };
 
-const checkResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
+const pathData = {
+  profile: '/users/me',
+  cards: '/cards',
+  likes: '/cards/likes',
+  avatar: '/users/me/avatar'
 }
 
-const getUserData = () => {
 
+const getUserData = () => {
+  
 }
 
 function getData(pathResource, method = "GET") {
@@ -22,4 +23,19 @@ function getData(pathResource, method = "GET") {
     method,
     headers: {authorization: config.headers.authorization}
   }) .then(checkResponse);
+}
+
+function postData(pathResource, data, method = "POST") {
+  return fetch(config.baseUrl + pathResource, {
+    method,
+    headers: config.headers,
+    body: JSON.stringify(data)
+  }).then(checkResponse)
+}
+
+const checkResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
 }
