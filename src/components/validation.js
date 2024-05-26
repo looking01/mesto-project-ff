@@ -32,7 +32,6 @@ const setEventListeners = (formElement, validationConfig) => {
     inputElement.addEventListener('input', () => {
       checkInputValidity(formElement, inputElement, validationConfig);
       toggleButtonState(inputList, buttonElement, validationConfig);
-      console.log(inputElement.validity)
     })
   })
 };
