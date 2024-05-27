@@ -9,31 +9,35 @@ function createCardElement(templateEle, serverData,  cardData, likeRemoveCallbac
   const cardElement = getCardTemplate(templateEle, cardData.card);
   const cardTitle = cardElement.querySelector(cardData.title);
   const cardImage = cardElement.querySelector(cardData.image);
+  const cardLikeCounter = cardElement.querySelector(cardData.likeCounter);
   const deleteButton = cardElement.querySelector(cardData.buttonDelete);
-  const cardLikeButton = cardElement.querySelector(cardData.buttonLike);
+  const buttonLike = cardElement.querySelector(cardData.buttonLike);
 
   cardImage.src = serverData.link;
   cardImage.alt = serverData.name;
   cardTitle.textContent = serverData.name;
+  cardLikeCounter.textContent = serverData.likes.length;
 
-  cardImage.addEventListener('click', imgPopUpCallback)
-
+  cardImage.addEventListener('click', imgPopUpCallback);
+  
   if (checkLike(serverData.likes, profileId)) {
-    cardLikeButton.classList.add(cardData.buttonLikeActive)
+    buttonLike.classList.add(cardData.buttonLikeActive)
   }
 
   if (serverData.owner._id === profileId) {
-    openPopUp(popUpDeleteCard);
-    cardData.idDeleteCard = serverData._id;
-    cardData.cardForDelete = evt.target.closest(cardData.card)
+    deleteButton.addEventListener('click', (evt) => {
+      openPopUp(popUpDeleteCard);
+      cardData.idDeleteCard = serverData._id;
+      cardData.cardForDelete = evt.target.closest(cardData.card);
+    })
   } else {
     deleteButton.remove();
   }
 
-  cardLikeButton.addEventListener("click", (evt) => {
-    likeRemoveCallback(evt, cardData.buttonLikeActive, serverData, profileId)
+  buttonLike.addEventListener("click", (evt) => {
+    likeRemoveCallback(evt, cardData.buttonLikeActive, cardLikeCounter, serverData, profileId)
   });
-
+  return cardElement;
 }
 
 // Функция удаления карточки
