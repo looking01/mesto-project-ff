@@ -13,6 +13,12 @@ const pathData = {
   avatar: '/users/me/avatar'
 }
 
+function getData(pathResource, method = "GET") {
+  return fetch(config.baseUrl + pathResource, {
+    method,
+    headers: {authorization: config.headers.authorization}
+  }) .then(checkResponse);
+}
 
 const getUserProfile = () => {
   return getData(pathData.profile)
@@ -38,12 +44,6 @@ const changeLike = (idCard, methodLike) => {
   return getData(pathData.likes + `/${idCard}`, `${methodLike?'PUT':'DELETE'}`)
 }
 
-function getData(pathResource, method = "GET") {
-  return fetch(config.baseUrl + pathResource, {
-    method,
-    headers: {authorization: config.headers.authorization}
-  }) .then(checkResponse);
-}
 
 function postData(pathResource, data, method = "POST") {
   return fetch(config.baseUrl + pathResource, {

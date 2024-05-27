@@ -13,6 +13,7 @@ import { getUserProfile, getCards, changeLike, shiftCard, editUserProfile } from
 const cardTemplate = document.querySelector("#card-template").content;
 const cardsContainer = document.querySelector(".places__list");
 const overlaysPopUp = document.querySelectorAll(".popup");
+const buttonsPopUpClose = document.querySelectorAll(".popup__close");
 
 // попап Профиля / Редактирование профиля
 const popUpEditProfile = document.querySelector(".popup_type_edit");
@@ -40,9 +41,6 @@ const zoomCardCaption = popUpZoomCard.querySelector('.popup__caption');
 // попап удаления карточки
 const popUpDeleteCard = document.querySelector('.popup_delete_card');
 const deleteCardForm = popUpDeleteCard.querySelector('.popup__form')
-
-
-const buttonsPopUpClose = document.querySelectorAll(".popup__close");
 
 const validationData = {
   formSelector: '.popup__form',
@@ -82,23 +80,24 @@ function addCard (cardsContainer, card) {
   cardsContainer.append(card)
 }
 
-// Сохранение модального окна создания карточки
-
-function createNewCard(evt) {
-  evt.preventDefault();
-  const cardData = {};
-
-  cardData.name = inputFormNewCardTitle.value;
-  cardData.link = inputFormNewCardLink.value;
-
-  cardsContainer.prepend(createCardElement(cardData, deleteCard, likeRemoveCard, openPopUpZoomCard));
-  newCardForm.reset();
-  closePopUp(popUpNewCard);
+function createNewCard(cardsContainer, newCardElement, popUpElement) {
+  cardsContainer.prepend(newCardElement);
+  closePopUp(popUpElement);
 }
+
 
 // Обработчик создания карточки
 
-newCardForm.addEventListener("submit", createNewCard);
+newCardForm.addEventListener("submit", () => {
+  const placeNewData = {
+    name: inputFormNewCardTitle.value,
+    link: inputFormNewCardLink.value
+  }
+  return pushNewCard(placeNewData).then(card => {
+    createNewCard(cardsContainer, createCardElement(cardTemplate, card, placesCardData, likeRemoveCard, openPopUpZoomCard, card.owner._id, popUpDeleteCard), popUpNewCard);
+    newCardForm.reset();
+  }).catch((err) => {console.log('Ошибка добавления новой карточки '+ err)})
+});
 
 buttonAddCard.addEventListener("click", () => {
   clearValidation(newCardForm, validationData);
@@ -127,6 +126,7 @@ function handleProfileFormSubmit(title, description, inputTitle, inputDescriptio
 buttonEditProfile.addEventListener("click", () => {
   inputFormProfileName.value = profileTitle.textContent;
   inputFormProfileDescription.value = profileDescription.textContent;
+
   clearValidation(profileEditForm, validationData);
   openPopUp(popUpEditProfile);
 });
