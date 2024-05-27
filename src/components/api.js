@@ -60,4 +60,4 @@ const checkResponse = (res) => {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export{getUserProfile, getCards, changeLike, shiftCard, editUserProfile}
+export{getUserProfile, getCards, changeLike, shiftCard, editUserProfile, pushNewCard}

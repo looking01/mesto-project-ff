@@ -48,17 +48,19 @@ function deleteCard(cardElement) {
 
 // Функция лайка карточки
 
-function likeRemoveCard(evt, buttonActiveLikeClass, serverData, profileId) {
+function likeRemoveCard(evt, buttonActiveLikeClass, cardLikeCounter,serverData, profileId) {
   if (checkLike(serverData.likes, profileId)) {
     changeLike(serverData._id, false).then(card => {
+      cardLikeCounter.textContent = card.likes.length;
       evt.target.classList.remove(buttonActiveLikeClass);
       serverData.likes = card.likes;
-    })
+    }).catch((err) => console.log(err))
   } else {
     changeLike(serverData._id, true).then(card => {
+      cardLikeCounter.textContent = card.likes.length;
       evt.target.classList.add(buttonActiveLikeClass);
       serverData.likes = card.likes
-    })
+    }).catch((err) => console.log(err))
   }
 }
 

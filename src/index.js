@@ -8,7 +8,7 @@ import {
 } from "./components/modal";
 
 import { enableValidation, clearValidation } from "./components/validation";
-import { getUserProfile, getCards, changeLike, shiftCard, editUserProfile } from "./components/api";
+import { getUserProfile, getCards, changeLike, shiftCard, editUserProfile, pushNewCard } from "./components/api";
 
 const cardTemplate = document.querySelector("#card-template").content;
 const cardsContainer = document.querySelector(".places__list");
@@ -117,7 +117,6 @@ overlaysPopUp.forEach((overlay) => {
 // Редактирование профиля
 
 function handleProfileFormSubmit(title, description, inputTitle, inputDescription, poUpElement) {
-  evt.preventDefault();
   title.textContent = inputTitle;
   description.textContent = inputDescription;
   closePopUp(poUpElement);
@@ -134,7 +133,7 @@ buttonEditProfile.addEventListener("click", () => {
 profileEditForm.addEventListener("submit", () => {
   editUserProfile({name: inputFormProfileName.value, about: inputFormProfileDescription.value}).then(profile => {
     handleProfileFormSubmit(profileTitle, profileDescription, profile.name, profile.about, popUpEditProfile);
-  })
+  }).catch((err) => console.log(err))
 });
 
 
