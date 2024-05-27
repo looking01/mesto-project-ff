@@ -13,24 +13,36 @@ import { getUserProfile, getCards, changeLike, shiftCard, editUserProfile } from
 const cardTemplate = document.querySelector("#card-template").content;
 const cardsContainer = document.querySelector(".places__list");
 const overlaysPopUp = document.querySelectorAll(".popup");
+
+// попап Профиля / Редактирование профиля
 const popUpEditProfile = document.querySelector(".popup_type_edit");
-const popUpNewCard = document.querySelector(".popup_type_new-card");
-const popUpDeleteCard = document.querySelector('.popup_delete_card')
-const buttonsPopUpClose = document.querySelectorAll(".popup__close");
-const buttonProfileEdit = document.querySelector(".profile__edit-button");
+const profileEditForm = popUpEditProfile.querySelector(".popup__form");
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
-const profileEditForm = popUpEditProfile.querySelector(".popup__form");
 const inputFormProfileName = profileEditForm.querySelector(".popup__input_type_name");
 const inputFormProfileDescription = profileEditForm.querySelector(".popup__input_type_description");
-const buttonAddCard = document.querySelector(".profile__add-button");
-const popUpNewCardForm = popUpNewCard.querySelector(".popup__form");
+const buttonEditProfile = document.querySelector(".profile__edit-button");
+const buttonSubmitEditForm = profileEditForm.querySelector('.popup__button');
+
+//попап Карточки / Добавление карточки
+const popUpNewCard = document.querySelector(".popup_type_new-card");
+const newCardForm = popUpNewCard.querySelector(".popup__form");
 const inputFormNewCardTitle = popUpNewCard.querySelector(".popup__input_type_card-name");
 const inputFormNewCardLink = popUpNewCard.querySelector(".popup__input_type_url");
+const buttonSubmitNewCardForm = newCardForm.querySelector('.popup__button');
+const buttonAddCard = document.querySelector(".profile__add-button");
+
+// попап открытия карточки
 const popUpZoomCard = document.querySelector(".popup_type_image");
 const zoomCardImg = popUpZoomCard.querySelector(".popup__image");
 const zoomCardCaption = popUpZoomCard.querySelector('.popup__caption');
 
+// попап удаления карточки
+const popUpDeleteCard = document.querySelector('.popup_delete_card');
+const deleteCardForm = popUpDeleteCard.querySelector('.popup__form')
+
+
+const buttonsPopUpClose = document.querySelectorAll(".popup__close");
 
 const validationData = {
   formSelector: '.popup__form',
@@ -80,16 +92,16 @@ function createNewCard(evt) {
   cardData.link = inputFormNewCardLink.value;
 
   cardsContainer.prepend(createCardElement(cardData, deleteCard, likeRemoveCard, openPopUpZoomCard));
-  popUpNewCardForm.reset();
+  newCardForm.reset();
   closePopUp(popUpNewCard);
 }
 
 // Обработчик создания карточки
 
-popUpNewCardForm.addEventListener("submit", createNewCard);
+newCardForm.addEventListener("submit", createNewCard);
 
 buttonAddCard.addEventListener("click", () => {
-  clearValidation(popUpNewCardForm, validationData);
+  clearValidation(newCardForm, validationData);
   openPopUp(popUpNewCard);
 });
 
@@ -112,7 +124,7 @@ function handleProfileFormSubmit(title, description, inputTitle, inputDescriptio
   closePopUp(poUpElement);
 }
 
-buttonProfileEdit.addEventListener("click", () => {
+buttonEditProfile.addEventListener("click", () => {
   inputFormProfileName.value = profileTitle.textContent;
   inputFormProfileDescription.value = profileDescription.textContent;
   clearValidation(profileEditForm, validationData);
