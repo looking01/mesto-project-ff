@@ -1,9 +1,10 @@
 
 
-// Создание карточек
 
 import { openPopUp } from "./modal";
 import { changeLike } from "./api";
+
+// Функция создания карточки
 
 function createCardElement(templateEle, serverData,  cardData, likeRemoveCallback, imgPopUpCallback, profileId, popUpDeleteCard) {
   const cardElement = getCardTemplate(templateEle, cardData.card);
@@ -64,9 +65,13 @@ function likeRemoveCard(evt, buttonActiveLikeClass, cardLikeCounter,serverData, 
   }
 }
 
+//Функция получения шаблона карточки
+
 function getCardTemplate (template, card) {
   return template.querySelector(card).cloneNode(true);
 }
+
+// Функция проверки пользователя поставившего лайка
 
 function checkLike(cardLikesArr, profileId) {
   return cardLikesArr.some(like => {

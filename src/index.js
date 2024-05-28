@@ -8,7 +8,7 @@ import {
 } from "./components/modal";
 
 import { enableValidation, clearValidation } from "./components/validation";
-import { getUserProfile, getCards, changeLike, shiftCard, editUserProfile, pushNewCard } from "./components/api";
+import { getUserProfile, getCards, shiftCard, editUserProfile, pushNewCard } from "./components/api";
 
 const cardTemplate = document.querySelector("#card-template").content;
 const cardsContainer = document.querySelector(".places__list");
@@ -56,7 +56,7 @@ const placesCardData = {
   image: '.card__image',
   title: '.card__title',
   buttonLike: '.card__like-button',
-  buttonLikeActive: '.card__like-button_is-active',
+  buttonLikeActive: 'card__like-button_is-active',
   likeCounter: '.card__like-counter',
   buttonDelete: '.card__delete-button',
   idDeleteCard: '',
@@ -113,7 +113,7 @@ overlaysPopUp.forEach((overlay) => {
 });
 
 deleteCardForm.addEventListener('submit', () => {
-  submitDelConfirmationForm(placesCardData.title, placesCardData.cardForDelete, popUpDeleteCard)
+  submitDelConfirmationForm(placesCardData.idDeleteCard, placesCardData.cardForDelete, popUpDeleteCard)
 })
 
 function submitDelConfirmationForm(id, card, popUp) {
@@ -139,7 +139,7 @@ buttonEditProfile.addEventListener("click", () => {
   openPopUp(popUpEditProfile);
 });
 
-profileEditForm.addEventListener("submit", () => {
+popUpEditProfile.addEventListener("submit", () => {
   editUserProfile({name: inputFormProfileName.value, about: inputFormProfileDescription.value}).then(profile => {
     handleProfileFormSubmit(profileTitle, profileDescription, profile.name, profile.about, popUpEditProfile);
   }).catch((err) => console.log(err))
