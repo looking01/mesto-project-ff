@@ -9,6 +9,7 @@ import {
 
 import { enableValidation, clearValidation } from "./components/validation";
 import { getUserProfile, getCards, shiftCard, editUserProfile, pushNewCard, changeAvatar } from "./components/api";
+import { makeLoader } from "./components/loader";
 
 const cardTemplate = document.querySelector("#card-template").content;
 const cardsContainer = document.querySelector(".places__list");
