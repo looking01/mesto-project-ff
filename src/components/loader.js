@@ -1,10 +1,10 @@
-function makeLoader (isLoading, button, textMessage, textMessageLoading) {
-  if(isLoading) {
+function makeLoader (isLoading, button, textMessage = 'Сохранить', textMessageLoading = 'Сохранение...') {
+  if(isLoading === false) {
     button.textContent = textMessageLoading;
-    button.setAttribute("disabled", "true");
+    button.disabled = true;
   } else {
     button.textContent = textMessage;
-    button.setAttribute("disabled", "false");
+    button.disabled = false;
   }
 }
 

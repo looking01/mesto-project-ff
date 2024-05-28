@@ -41,7 +41,7 @@ const zoomCardCaption = popUpZoomCard.querySelector('.popup__caption');
 
 // попап удаления карточки
 const popUpDeleteCard = document.querySelector('.popup_delete_card');
-const deleteCardForm = popUpDeleteCard.querySelector('.popup__form')
+const deleteCardForm = popUpDeleteCard.querySelector('.popup__form');
 
 // попап Аватара / Редактирование аватара
 const avatarImg = document.querySelector('.profile__image');
@@ -79,6 +79,7 @@ enableValidation(validationData);
 
 Promise.all([getUserProfile(), getCards()])
   .then(([profile, cards]) => {
+    avatarImg.style.backgroundImage = `url('${profile.avatar}')`;
     profileTitle.textContent = profile.name;
     profileDescription.textContent = profile.about;
     cards.forEach((card) => {
@@ -103,10 +104,11 @@ newCardForm.addEventListener("submit", () => {
     name: inputFormNewCardTitle.value,
     link: inputFormNewCardLink.value
   }
+  makeLoader(true, buttonSubmitNewCardForm);
   return pushNewCard(placeNewData).then(card => {
     createNewCard(cardsContainer, createCardElement(cardTemplate, card, placesCardData, likeRemoveCard, openPopUpZoomCard, card.owner._id, popUpDeleteCard), popUpNewCard);
     newCardForm.reset();
-  }).catch((err) => {console.log('Ошибка добавления новой карточки '+ err)})
+  }).catch((err) => {console.log('Ошибка добавления новой карточки '+ err)}).finally(() => {makeLoader(false, buttonSubmitNewCardForm)})
 });
 
 // Обработчик открытия попапа добавления новой карточки
@@ -159,9 +161,10 @@ buttonEditProfile.addEventListener("click", () => {
 // Обработчик сохранения формы редактирования профиля
 
 popUpEditProfile.addEventListener("submit", () => {
+  makeLoader(true, buttonSubmitNewCardForm);
   editUserProfile({name: inputFormProfileName.value, about: inputFormProfileDescription.value}).then(profile => {
     handleProfileFormSubmit(profileTitle, profileDescription, profile.name, profile.about, popUpEditProfile);
-  }).catch((err) => console.log(err))
+  }).catch((err) => console.log(err)).finally(() => {makeLoader(false, buttonSubmitEditForm)})
 });
 
 // функция открытия изображения карточки
@@ -182,9 +185,10 @@ avatarImg.addEventListener('click', () => {
 });
 
 avatarEditForm.addEventListener('submit', () => {
+  makeLoader(true, buttonSubmitNewCardForm);
   changeAvatar(inputFormAvatarUrl.value).then((user) => {
     avatarImg.style.backgroundImage = `url('${user.avatar}')`;
     avatarEditForm.reset();
     closePopUp(popUpAvatar);
-  }).catch((err) => {console.log(err)})
+  }).catch((err) => {console.log(err)}).finally(() => {makeLoader(false, buttonSubmitNewCardForm)})
 })
