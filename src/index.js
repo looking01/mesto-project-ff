@@ -18,20 +18,20 @@ const buttonsPopUpClose = document.querySelectorAll(".popup__close");
 
 // попап Профиля / Редактирование профиля
 const popUpEditProfile = document.querySelector(".popup_type_edit");
-const profileEditForm = popUpEditProfile.querySelector(".popup__form");
+const formEditProfile = popUpEditProfile.querySelector(".popup__form");
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
-const inputFormProfileName = profileEditForm.querySelector(".popup__input_type_name");
-const inputFormProfileDescription = profileEditForm.querySelector(".popup__input_type_description");
+const inputFormProfileName = formEditProfile.querySelector(".popup__input_type_name");
+const inputFormProfileDescription = formEditProfile.querySelector(".popup__input_type_description");
 const buttonEditProfile = document.querySelector(".profile__edit-button");
-const buttonSubmitEditForm = profileEditForm.querySelector('.popup__button');
+const buttonSubmitEditForm = formEditProfile.querySelector('.popup__button');
 
 //попап Карточки / Добавление карточки
 const popUpNewCard = document.querySelector(".popup_type_new-card");
-const newCardForm = popUpNewCard.querySelector(".popup__form");
+const formNewCard = popUpNewCard.querySelector(".popup__form");
 const inputFormNewCardTitle = popUpNewCard.querySelector(".popup__input_type_card-name");
 const inputFormNewCardLink = popUpNewCard.querySelector(".popup__input_type_url");
-const buttonSubmitNewCardForm = newCardForm.querySelector('.popup__button');
+const buttonSubmitNewCardForm = formNewCard.querySelector('.popup__button');
 const buttonAddCard = document.querySelector(".profile__add-button");
 
 // попап открытия карточки
@@ -41,14 +41,14 @@ const zoomCardCaption = popUpZoomCard.querySelector('.popup__caption');
 
 // попап удаления карточки
 const popUpDeleteCard = document.querySelector('.popup_delete_card');
-const deleteCardForm = popUpDeleteCard.querySelector('.popup__form');
+const formDeleteCard = popUpDeleteCard.querySelector('.popup__form');
 
 // попап Аватара / Редактирование аватара
 const avatarImg = document.querySelector('.profile__image');
 const popUpAvatar = document.querySelector('.popup_type_avatar_edit');
-const avatarEditForm = popUpAvatar.querySelector('.popup__form');
-const inputFormAvatarUrl = avatarEditForm.querySelector('.popup__input_type_avatar');
-const buttonSubmitAvatarForm = avatarEditForm.querySelector('.popup__button');
+const formAvatarEdit = popUpAvatar.querySelector('.popup__form');
+const inputFormAvatarUrl = formAvatarEdit.querySelector('.popup__input_type_avatar');
+const buttonSubmitAvatarForm = formAvatarEdit.querySelector('.popup__button');
 
 
 
@@ -83,7 +83,7 @@ Promise.all([getUserProfile(), getCards()])
     profileTitle.textContent = profile.name;
     profileDescription.textContent = profile.about;
     cards.forEach((card) => {
-      addCard(cardsContainer, createCardElement(cardTemplate, card, placesCardData, likeRemoveCard, openPopUpZoomCard, profile._id, popUpDeleteCard))
+      addCard(cardsContainer, createCardElement(cardTemplate, card, placesCardData, likeRemoveCard, openPopUpZoomCard, profile._id, handleDeleteCard))
     })
   }).catch((err) => {console.log(err);})
 
@@ -96,25 +96,30 @@ function createNewCard(cardsContainer, newCardElement, popUpElement) {
   closePopUp(popUpElement);
 }
 
+function handleDeleteCard (cardId, cardElement) {
+  openPopUp(popUpDeleteCard)
+  placesCardData.idDeleteCard = cardId;
+  placesCardData.cardForDelete = cardElement;
+}
 
 // Обработчик создания карточки
 
-newCardForm.addEventListener("submit", () => {
+formNewCard.addEventListener("submit", () => {
   const placeNewData = {
     name: inputFormNewCardTitle.value,
     link: inputFormNewCardLink.value
   }
   makeLoader(true, buttonSubmitNewCardForm);
   return pushNewCard(placeNewData).then(card => {
-    createNewCard(cardsContainer, createCardElement(cardTemplate, card, placesCardData, likeRemoveCard, openPopUpZoomCard, card.owner._id, popUpDeleteCard), popUpNewCard);
-    newCardForm.reset();
+    createNewCard(cardsContainer, createCardElement(cardTemplate, card, placesCardData, likeRemoveCard, openPopUpZoomCard, card.owner._id, handleDeleteCard), popUpNewCard);
+    formNewCard.reset();
   }).catch((err) => {console.log('Ошибка добавления новой карточки '+ err)}).finally(() => {makeLoader(false, buttonSubmitNewCardForm)})
 });
 
 // Обработчик открытия попапа добавления новой карточки
 
 buttonAddCard.addEventListener("click", () => {
-  clearValidation(newCardForm, validationData);
+  clearValidation(formNewCard, validationData);
   openPopUp(popUpNewCard);
 });
 
@@ -128,7 +133,7 @@ overlaysPopUp.forEach((overlay) => {
 
 // Обработчик удаления добавленной карточки
 
-deleteCardForm.addEventListener('submit', () => {
+formDeleteCard.addEventListener('submit', () => {
   submitDelConfirmationForm(placesCardData.idDeleteCard, placesCardData.cardForDelete, popUpDeleteCard)
 })
 
@@ -154,7 +159,7 @@ function handleProfileFormSubmit(title, description, inputTitle, inputDescriptio
 buttonEditProfile.addEventListener("click", () => {
   inputFormProfileName.value = profileTitle.textContent;
   inputFormProfileDescription.value = profileDescription.textContent;
-  clearValidation(profileEditForm, validationData);
+  clearValidation(formEditProfile, validationData);
   openPopUp(popUpEditProfile);
 });
 
@@ -184,11 +189,11 @@ avatarImg.addEventListener('click', () => {
   openPopUp(popUpAvatar);
 });
 
-avatarEditForm.addEventListener('submit', () => {
+formAvatarEdit.addEventListener('submit', () => {
   makeLoader(true, buttonSubmitNewCardForm);
   changeAvatar(inputFormAvatarUrl.value).then((user) => {
     avatarImg.style.backgroundImage = `url('${user.avatar}')`;
-    avatarEditForm.reset();
+    formAvatarEdit.reset();
     closePopUp(popUpAvatar);
   }).catch((err) => {console.log(err)}).finally(() => {makeLoader(false, buttonSubmitNewCardForm)})
 })

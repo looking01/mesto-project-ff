@@ -6,7 +6,7 @@ import { changeLike } from "./api";
 
 // Функция создания карточки
 
-function createCardElement(templateEle, serverData,  cardData, likeRemoveCallback, imgPopUpCallback, profileId, popUpDeleteCard) {
+function createCardElement(templateEle, serverData,  cardData, likeRemoveCallback, imgPopUpCallback, profileId, deleteCardCallback) {
   const cardElement = getCardTemplate(templateEle, cardData.card);
   const cardTitle = cardElement.querySelector(cardData.title);
   const cardImage = cardElement.querySelector(cardData.image);
@@ -27,9 +27,9 @@ function createCardElement(templateEle, serverData,  cardData, likeRemoveCallbac
 
   if (serverData.owner._id === profileId) {
     deleteButton.addEventListener('click', (evt) => {
-      openPopUp(popUpDeleteCard);
       cardData.idDeleteCard = serverData._id;
       cardData.cardForDelete = evt.target.closest(cardData.card);
+      deleteCardCallback(cardData.idDeleteCard, cardData.cardForDelete)
     })
   } else {
     deleteButton.remove();
