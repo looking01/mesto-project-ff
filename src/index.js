@@ -112,7 +112,16 @@ overlaysPopUp.forEach((overlay) => {
   overlay.addEventListener("click", closeOverlayPopUp);
 });
 
+deleteCardForm.addEventListener('submit', () => {
+  submitDelConfirmationForm(placesCardData.title, placesCardData.cardForDelete, popUpDeleteCard)
+})
 
+function submitDelConfirmationForm(id, card, popUp) {
+  shiftCard(id).then(() => {
+    deleteCard(card);
+    closePopUp(popUp)
+  }).catch((err) => {console.log(err)})
+}
 
 // Редактирование профиля
 
