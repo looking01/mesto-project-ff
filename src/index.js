@@ -8,7 +8,7 @@ import {
 } from "./components/modal";
 
 import { enableValidation, clearValidation } from "./components/validation";
-import { getUserProfile, getCards, shiftCard, editUserProfile, pushNewCard } from "./components/api";
+import { getUserProfile, getCards, shiftCard, editUserProfile, pushNewCard, changeAvatar } from "./components/api";
 
 const cardTemplate = document.querySelector("#card-template").content;
 const cardsContainer = document.querySelector(".places__list");
@@ -42,6 +42,15 @@ const zoomCardCaption = popUpZoomCard.querySelector('.popup__caption');
 const popUpDeleteCard = document.querySelector('.popup_delete_card');
 const deleteCardForm = popUpDeleteCard.querySelector('.popup__form')
 
+// попап Аватара / Редактирование аватара
+const avatarImg = document.querySelector('.profile__image');
+const popUpAvatar = document.querySelector('.popup_type_avatar_edit');
+const avatarEditForm = popUpAvatar.querySelector('.popup__form');
+const inputFormAvatarUrl = avatarEditForm.querySelector('.popup__input_type_avatar');
+const buttonSubmitAvatarForm = avatarEditForm.querySelector('.popup__button');
+
+
+
 const validationData = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -74,7 +83,7 @@ Promise.all([getUserProfile(), getCards()])
     cards.forEach((card) => {
       addCard(cardsContainer, createCardElement(cardTemplate, card, placesCardData, likeRemoveCard, openPopUpZoomCard, profile._id, popUpDeleteCard))
     })
-  })
+  }).catch((err) => {console.log(err);})
 
 function addCard (cardsContainer, card) {
   cardsContainer.append(card)
@@ -99,6 +108,8 @@ newCardForm.addEventListener("submit", () => {
   }).catch((err) => {console.log('Ошибка добавления новой карточки '+ err)})
 });
 
+// Обработчик открытия попапа добавления новой карточки
+
 buttonAddCard.addEventListener("click", () => {
   clearValidation(newCardForm, validationData);
   openPopUp(popUpNewCard);
@@ -112,9 +123,13 @@ overlaysPopUp.forEach((overlay) => {
   overlay.addEventListener("click", closeOverlayPopUp);
 });
 
+// Обработчик удаления добавленной карточки
+
 deleteCardForm.addEventListener('submit', () => {
   submitDelConfirmationForm(placesCardData.idDeleteCard, placesCardData.cardForDelete, popUpDeleteCard)
 })
+
+// Функция удаления карточки
 
 function submitDelConfirmationForm(id, card, popUp) {
   shiftCard(id).then(() => {
@@ -123,7 +138,7 @@ function submitDelConfirmationForm(id, card, popUp) {
   }).catch((err) => {console.log(err)})
 }
 
-// Редактирование профиля
+// Функция редактирование профиля
 
 function handleProfileFormSubmit(title, description, inputTitle, inputDescription, poUpElement) {
   title.textContent = inputTitle;
@@ -131,13 +146,16 @@ function handleProfileFormSubmit(title, description, inputTitle, inputDescriptio
   closePopUp(poUpElement);
 }
 
+// Обработчик открытия попапа редактирования профиля
+
 buttonEditProfile.addEventListener("click", () => {
   inputFormProfileName.value = profileTitle.textContent;
   inputFormProfileDescription.value = profileDescription.textContent;
-
   clearValidation(profileEditForm, validationData);
   openPopUp(popUpEditProfile);
 });
+
+// Обработчик сохранения формы редактирования профиля
 
 popUpEditProfile.addEventListener("submit", () => {
   editUserProfile({name: inputFormProfileName.value, about: inputFormProfileDescription.value}).then(profile => {
@@ -145,14 +163,27 @@ popUpEditProfile.addEventListener("submit", () => {
   }).catch((err) => console.log(err))
 });
 
+// функция открытия изображения карточки
 
 function openPopUpZoomCard (evt) {
   const picture = evt.target;
-
   openPopUp(popUpZoomCard);
-
   zoomCardImg.src = picture.src;
   zoomCardCaption.textContent = picture.alt;
   zoomCardImg.alt = picture.alt;
-
 }
+
+// Обработчик открытия попапа аватара
+
+avatarImg.addEventListener('click', () => {
+  clearValidation(popUpAvatar, validationData)
+  openPopUp(popUpAvatar);
+});
+
+avatarEditForm.addEventListener('submit', () => {
+  changeAvatar(inputFormAvatarUrl.value).then((user) => {
+    avatarImg.style.backgroundImage = `url('${user.avatar}')`;
+    avatarEditForm.reset();
+    closePopUp(popUpAvatar);
+  }).catch((err) => {console.log(err)})
+})

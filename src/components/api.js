@@ -44,6 +44,10 @@ const changeLike = (idCard, methodLike) => {
   return getData(pathData.likes + `/${idCard}`, `${methodLike?'PUT':'DELETE'}`)
 }
 
+const changeAvatar = (avatar) => {
+  return postData(pathData.avatar, {avatar}, "PATCH")
+}
+
 
 function postData(pathResource, data, method = "POST") {
   return fetch(config.baseUrl + pathResource, {
@@ -60,4 +64,4 @@ const checkResponse = (res) => {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export{getUserProfile, getCards, changeLike, shiftCard, editUserProfile, pushNewCard}
+export{getUserProfile, getCards, changeLike, shiftCard, editUserProfile, pushNewCard, changeAvatar}
