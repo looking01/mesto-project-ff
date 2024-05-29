@@ -166,7 +166,7 @@ buttonEditProfile.addEventListener("click", () => {
 // Обработчик сохранения формы редактирования профиля
 
 popUpEditProfile.addEventListener("submit", () => {
-  makeLoader(true, buttonSubmitNewCardForm);
+  makeLoader(true, buttonSubmitEditForm);
   editUserProfile({name: inputFormProfileName.value, about: inputFormProfileDescription.value}).then(profile => {
     handleProfileFormSubmit(profileTitle, profileDescription, profile.name, profile.about, popUpEditProfile);
   }).catch((err) => console.log(err)).finally(() => {makeLoader(false, buttonSubmitEditForm)})
@@ -190,10 +190,10 @@ avatarImg.addEventListener('click', () => {
 });
 
 formAvatarEdit.addEventListener('submit', () => {
-  makeLoader(true, buttonSubmitNewCardForm);
+  makeLoader(true, buttonSubmitAvatarForm);
   changeAvatar(inputFormAvatarUrl.value).then((user) => {
     avatarImg.style.backgroundImage = `url('${user.avatar}')`;
     formAvatarEdit.reset();
     closePopUp(popUpAvatar);
-  }).catch((err) => {console.log(err)}).finally(() => {makeLoader(false, buttonSubmitNewCardForm)})
+  }).catch((err) => {console.log(err)}).finally(() => {makeLoader(false, buttonSubmitAvatarForm)})
 })

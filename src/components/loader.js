@@ -1,5 +1,5 @@
 function makeLoader (isLoading, button) {
-  if(isLoading === true) {
+  if(isLoading) {
     const textMessageLoading = 'Сохранение...';
     button.textContent = textMessageLoading;
     button.disabled = true;
